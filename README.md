@@ -2,7 +2,7 @@
 
 ![SQL](https://img.shields.io/badge/SQL-MySQL%208.0%2B-4479A1?logo=mysql&logoColor=white) ![License](https://img.shields.io/badge/license-BlackCat%20Proprietary-red) ![Status](https://img.shields.io/badge/status-stable-informational) ![Generated](https://img.shields.io/badge/generated-from%20schema--map-blue)
 
-> Schema package for table **cart_items** (repo: $slug).
+> Schema package for table **cart_items** (repo: `cart-items`).
 
 ## Files
 ```
@@ -55,15 +55,15 @@ mysql -h 127.0.0.1 -P 3307 -u root -proot app < schema/030_foreign_keys.sql
 ```mermaid
 erDiagram
   CART_ITEMS {
-    BIGINT id
-    CHAR(36) cart_id
-    BIGINT book_id
-    VARCHAR(64) sku
+    INT id
+    VARCHAR cart_id
+    INT book_id
+    VARCHAR sku
     JSON variant
     INT quantity
-    DECIMAL(12,2) unit_price
-    DECIMAL(12,2) price_snapshot
-    CHAR(3) currency
+    DECIMAL unit_price
+    DECIMAL price_snapshot
+    VARCHAR currency
     JSON meta
   }
   CART_ITEMS }o--|| BOOKS : "book_id"
