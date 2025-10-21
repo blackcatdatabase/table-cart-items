@@ -66,8 +66,8 @@ erDiagram
     CHAR(3) currency
     JSON meta
   }
-  CART_ITEMS }o--|| BOOKS : (book_id)
-  CART_ITEMS }o--|| CARTS : (cart_id)
+  CART_ITEMS }o--|| BOOKS : "book_id"
+  CART_ITEMS }o--|| CARTS : "cart_id"
 ```
 
 ## Indexes
