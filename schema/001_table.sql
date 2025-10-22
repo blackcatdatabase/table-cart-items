@@ -13,6 +13,6 @@ CREATE TABLE IF NOT EXISTS cart_items (
   meta JSON NULL,
   PRIMARY KEY (id),
   INDEX idx_cart_items_cart_id (cart_id),
-  CONSTRAINT chk_cart_currency CHECK (currency REGEXP ''^[A-Z]{3}$''),
+  CONSTRAINT chk_cart_currency CHECK (currency REGEXP '^[A-Z]{3}$'),
   CONSTRAINT chk_cart_qty CHECK (quantity > 0)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
