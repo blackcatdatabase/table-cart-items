@@ -1,4 +1,4 @@
--- Auto-generated from schema-map.psd1 (map@1e83bb6)
+-- Auto-generated from schema-map.psd1 (map@6cefe8e)
 -- table: cart_items
 CREATE TABLE IF NOT EXISTS cart_items (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
