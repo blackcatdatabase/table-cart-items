@@ -1,4 +1,4 @@
--- Auto-generated from schema-map.psd1 @ 1e83bb6 (2025-10-21T10:18:36+02:00)
+-- Auto-generated from schema-map.psd1 (map@1e83bb6)
 -- table: cart_items
 ALTER TABLE cart_items ADD CONSTRAINT fk_cart_items_cart FOREIGN KEY (cart_id) REFERENCES carts(id) ON DELETE CASCADE;
 
