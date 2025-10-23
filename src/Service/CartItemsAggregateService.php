@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace BlackCat\Database\Packages\CartItems\Service;
 
-use BlackCat\Core\Database\Database;
+use BlackCat\Core\Database;
 use BlackCat\Database\Packages\CartItems\Dto\CartItemDto;
 use BlackCat\Database\Packages\CartItems\Mapper\CartItemDtoMapper;
 use BlackCat\Database\Packages\CartItems\Repository\CartItemRepository;
