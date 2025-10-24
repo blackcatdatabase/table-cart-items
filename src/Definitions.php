@@ -6,7 +6,7 @@ namespace BlackCat\Database\Packages\CartItems;
 final class Definitions {
     // --- základní metadata ---
     public static function table(): string { return 'cart_items'; }
-    public static function contractView(): string { return 'v_cart_items_contract'; }
+    public static function contractView(): string { return 'vw_cart_items'; }
     /** @return string[] */
     public static function columns(): array { return [ 'id', 'cart_id', 'book_id', 'sku', 'variant', 'quantity', 'unit_price', 'price_snapshot', 'currency', 'meta' ]; }
     public static function pk(): string { return 'id'; }

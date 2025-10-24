@@ -10,7 +10,7 @@ namespace BlackCat\Database\Packages\CartItems\Dto;
  */
 final class CartItemDto {
     public function __construct(
-        public readonly int $id,
+        public readonly ?int $id,
         public readonly string $cartId,
         public readonly int $bookId,
         public readonly ?string $sku,
