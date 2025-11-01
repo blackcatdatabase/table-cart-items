@@ -9,7 +9,24 @@ final class Definitions {
     public static function contractView(): string { return 'vw_cart_items'; }
     /** @return string[] */
     public static function columns(): array { return [ 'id', 'cart_id', 'book_id', 'sku', 'variant', 'quantity', 'unit_price', 'price_snapshot', 'currency', 'meta' ]; }
-    public static function pk(): string { return 'id'; }
+
+    /**
+     * Primární klíč(e) tabulky. Podporuje jednoduché i složené PK.
+     * id může být "id" nebo "col1, col2".
+     * @return string[]
+     */
+    public static function pkColumns(): array {
+        $raw = 'id';
+        // povol formát "a,b" i s mezerami
+        $parts = array_values(array_filter(array_map(
+            static fn($p) => trim($p, " \t\n\r\0\x0B`\""),
+            preg_split('/\s*,\s*/', $raw ?? '')
+        )));
+        if (!$parts) { return [$raw]; }
+        return $parts;
+    }
+    /** Zpětná kompatibilita: první sloupec z PK. */
+    public static function pk(): string { return self::pkColumns()[0]; }
 
     // --- volitelná metadata ---
     public static function softDeleteColumn(): ?string {
@@ -25,10 +42,25 @@ final class Definitions {
     public static function defaultOrder(): ?string {
         $c = 'id DESC'; return $c !== '' ? $c : null;
     }
+
     /** @return array<int,array<int,string>> seznam unikátních klíčů */
-    public static function uniqueKeys(): array { return [ [ 'cart_id', 'book_id', 'sku' ] ]; }
+    public static function uniqueKeys(): array { return [ [ 'cart_id', 'book_id', 'sku' ], [ 'id' ] ]; }
+
     /** @return string[] JSON sloupce kvůli castům/operacím */
     public static function jsonColumns(): array { return [ 'variant', 'meta' ]; }
+
+    /** @return string[] Seznam číselných sloupců (heuristika z generátoru; bez runtime DB dotazů). */
+    public static function intColumns(): array { return [ 'id', 'book_id', 'quantity' ]; }
+
+    /** @return array<string,string> alias => column (pro normalizaci vstupů) */
+    public static function paramAliases(): array { return []; }
+
+    /** Hint pro repo: je sloupec s verzí opravdu číselný? (bez information_schema) */
+    public static function versionIsNumeric(): bool
+    {
+        $v = self::versionColumn();
+        return $v !== null && in_array($v, self::intColumns(), true);
+    }
 
     // --- pomocníci ---
     public static function hasColumn(string $col): bool {
