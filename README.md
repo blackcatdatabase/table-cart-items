@@ -2,7 +2,7 @@
 
 ![SQL](https://img.shields.io/badge/SQL-MySQL%208.0%2B-4479A1?logo=mysql&logoColor=white) ![License](https://img.shields.io/badge/license-BlackCat%20Proprietary-red) ![Status](https://img.shields.io/badge/status-stable-informational) ![Generated](https://img.shields.io/badge/generated-from%20schema--map-blue)
 
-<!-- Auto-generated from schema-map.psd1 @ 6cefe8e (2025-10-22T20:27:41+02:00) -->
+<!-- Auto-generated from schema-map-postgres.psd1 @ 62c9c93 (2025-11-20T21:38:11+01:00) -->
 
 > Schema package for table **cart_items** (repo: `cart-items`).
 
@@ -10,7 +10,7 @@
 ```
 schema/
   001_table.sql
-  # (no deferred indexes declared in map)
+  020_indexes.sql
   030_foreign_keys.sql
 ```
 
@@ -18,12 +18,14 @@ schema/
 ```bash
 # Apply schema (Linux/macOS):
 mysql -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASS" "$DB_NAME" < schema/001_table.sql
+mysql -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASS" "$DB_NAME" < schema/020_indexes.sql
 mysql -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASS" "$DB_NAME" < schema/030_foreign_keys.sql
 ```
 
 ```powershell
 # Apply schema (Windows PowerShell):
 mysql -h $env:DB_HOST -u $env:DB_USER -p$env:DB_PASS $env:DB_NAME < schema/001_table.sql
+mysql -h $env:DB_HOST -u $env:DB_USER -p$env:DB_PASS $env:DB_NAME < schema/020_indexes.sql
 mysql -h $env:DB_HOST -u $env:DB_USER -p$env:DB_PASS $env:DB_NAME < schema/030_foreign_keys.sql
 ```
 
@@ -33,47 +35,52 @@ mysql -h $env:DB_HOST -u $env:DB_USER -p$env:DB_PASS $env:DB_NAME < schema/030_f
 docker run --rm -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=app -p 3307:3306 -d mysql:8
 sleep 15
 mysql -h 127.0.0.1 -P 3307 -u root -proot app < schema/001_table.sql
+mysql -h 127.0.0.1 -P 3307 -u root -proot app < schema/020_indexes.sql
 mysql -h 127.0.0.1 -P 3307 -u root -proot app < schema/030_foreign_keys.sql
 ```
 
 ## Columns
 | Column | Type | Null | Default | Extra |
 |-------:|:-----|:----:|:--------|:------|
-| id | BIGINT UNSIGNED | NO | — | AUTO_INCREMENT |
+| id | BIGINT | — | AS | PK |
+| tenant_id | BIGINT | NO | — |  |
 | cart_id | CHAR(36) | NO | — |  |
-| book_id | BIGINT UNSIGNED | NO | — |  |
+| book_id | BIGINT | NO | — |  |
 | sku | VARCHAR(64) | YES | — |  |
-| variant | JSON | YES | — |  |
-| quantity | INT UNSIGNED | NO | — |  |
-| unit_price | DECIMAL(12,2) | NO | 0.00 |  |
-| price_snapshot | DECIMAL(12,2) | NO | — |  |
+| variant | JSONB | YES | — |  |
+| quantity | INTEGER | NO | — |  |
+| unit_price | NUMERIC(12,2) | NO | 0.00 |  |
+| price_snapshot | NUMERIC(12,2) | NO | — |  |
 | currency | CHAR(3) | NO | — |  |
-| meta | JSON | YES | — |  |
+| meta | JSONB | YES | — |  |
 
 ## Relationships
-- FK → **books** via (book_id) (ON DELETE CASCADE).
-- FK → **carts** via (cart_id) (ON DELETE CASCADE).
+- FK → **books** via (tenant_id,book_id) (ON DELETE CASCADE).
+- FK → **carts** via (tenant_id,cart_id) (ON DELETE CASCADE).
+- FK → **tenants** via (tenant_id) (ON DELETE RESTRICT).
 
 ```mermaid
 erDiagram
   CART_ITEMS {
-    INT id
+    INT id PK
+    INT tenant_id
     VARCHAR cart_id
     INT book_id
     VARCHAR sku
-    JSON variant
-    INT quantity
+    JSONB variant
+    INTEGER quantity
     DECIMAL unit_price
     DECIMAL price_snapshot
     VARCHAR currency
-    JSON meta
+    JSONB meta
   }
-  CART_ITEMS }o--|| BOOKS : "book_id"
-  CART_ITEMS }o--|| CARTS : "cart_id"
+  CART_ITEMS }o--|| BOOKS : "tenant_id, book_id"
+  CART_ITEMS }o--|| CARTS : "tenant_id, cart_id"
+  CART_ITEMS }o--|| TENANTS : "tenant_id"
 ```
 
 ## Indexes
-- No deferred indexes declared for this table.
+- 3 deferred index statement(s) in schema/020_indexes.sql.
 
 ## Notes
 - Generated from the umbrella repository **blackcat-database** using `scripts/schema-map.psd1`.
