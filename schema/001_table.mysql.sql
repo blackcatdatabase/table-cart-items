@@ -1,8 +1,9 @@
--- Auto-generated from schema-map-mysql.psd1 (map@db2f8b8)
+-- Auto-generated from schema-map-mysql.psd1 (map@62c9c93)
 -- engine: mysql
 -- table:  cart_items
 CREATE TABLE IF NOT EXISTS cart_items (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  tenant_id BIGINT UNSIGNED NOT NULL,
   cart_id CHAR(36) NOT NULL,
   book_id BIGINT UNSIGNED NOT NULL,
   sku VARCHAR(64) NULL,
@@ -16,4 +17,4 @@ CREATE TABLE IF NOT EXISTS cart_items (
   INDEX idx_cart_items_cart_id (cart_id),
   CONSTRAINT chk_cart_currency CHECK (currency REGEXP '^[A-Z]{3}$'),
   CONSTRAINT chk_cart_qty CHECK (quantity > 0)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;
