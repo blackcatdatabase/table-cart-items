@@ -32,15 +32,49 @@ final class CartItemsModule implements ModuleInterface
         $table = SqlIdentifier::qi($db, $this->table());
         $view  = SqlIdentifier::qi($db, self::contractView());
 
+        if ($d->isMysql()) {
+            $createViewSql = <<<'SQL'
+CREATE OR REPLACE ALGORITHM=MERGE SQL SECURITY INVOKER VIEW vw_cart_items AS
+SELECT
+  tenant_id,
+  id,
+  cart_id,
+  book_id,
+  sku,
+  variant,
+  quantity,
+  unit_price,
+  price_snapshot,
+  currency,
+  meta
+FROM cart_items;
+SQL;
+        } else {
+            $createViewSql = <<<'SQL'
+CREATE OR REPLACE VIEW vw_cart_items AS
+SELECT
+  id,
+  tenant_id,
+  cart_id,
+  book_id,
+  sku,
+  variant,
+  quantity,
+  unit_price,
+  price_snapshot,
+  currency,
+  meta
+FROM cart_items;
+SQL;
+        }
+
         if (\class_exists('\\BlackCat\\Database\\Support\\DdlGuard')) {
-            (new \BlackCat\Database\Support\DdlGuard($db, $d))->applyCreateView(
-                "CREATE VIEW {$view} AS SELECT * FROM {$table}"
-            );
+            (new \BlackCat\Database\Support\DdlGuard($db, $d))->applyCreateView($createViewSql);
         } else {
             // Prefer CREATE OR REPLACE VIEW (gentle on dependencies)
-            $sql = "CREATE OR REPLACE VIEW {$view} AS SELECT * FROM {$table}";
-            $db->exec($sql);
+            $db->exec($createViewSql);
         }
+
     }
 
     public function upgrade(Database $db, SqlDialect $d, string $from): void
@@ -68,7 +102,14 @@ final class CartItemsModule implements ModuleInterface
         $hasView  = SchemaIntrospector::hasView($db, $d, $view);
 
         // Quick index/FK check – generator injects names (case-sensitive per DB)
-        $expectedIdx = [ 'idx_cart_items_tenant_book', 'ux_cart_items' ];
+        $expectedIdx = [ 'idx_cart_items_cart_id', 'idx_cart_items_tenant_book', 'idx_cart_items_tenant_cart', 'ux_cart_items_tenant_norm' ];
+        if ($d->isMysql()) {
+            // Drop PG-only index naming patterns (e.g., GIN/GiST)
+            $expectedIdx = array_values(array_filter(
+                $expectedIdx,
+                static fn(string $n): bool => !str_starts_with($n, 'gin_') && !str_starts_with($n, 'gist_')
+            ));
+        }
         $expectedFk  = [ 'fk_cart_items_book', 'fk_cart_items_cart', 'fk_cart_items_tenant' ];
 
         $haveIdx = $hasTable ? SchemaIntrospector::listIndexes($db, $d, $table)     : [];
@@ -94,7 +135,7 @@ final class CartItemsModule implements ModuleInterface
             'columns'     => Definitions::columns(),
             'version'     => $this->version(),
             'dialects'    => [ 'mysql', 'postgres' ],
-            'indexes'     => [ 'idx_cart_items_tenant_book', 'ux_cart_items' ],
+            'indexes'     => [ 'idx_cart_items_cart_id', 'idx_cart_items_tenant_book', 'idx_cart_items_tenant_cart', 'ux_cart_items_tenant_norm' ],
             'foreignKeys' => [ 'fk_cart_items_book', 'fk_cart_items_cart', 'fk_cart_items_tenant' ],
         ];
     }

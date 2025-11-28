@@ -1,6 +1,7 @@
--- Auto-generated from schema-map-mysql.psd1 (map@62c9c93)
+-- Auto-generated from schema-map-mysql.psd1 (map@mtime:2025-11-27T15:13:14Z)
 -- engine: mysql
 -- table:  cart_items
+
 CREATE TABLE IF NOT EXISTS cart_items (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   tenant_id BIGINT UNSIGNED NOT NULL,
@@ -14,6 +15,7 @@ CREATE TABLE IF NOT EXISTS cart_items (
   currency CHAR(3) NOT NULL,
   meta JSON NULL,
   PRIMARY KEY (id),
+  UNIQUE KEY ux_cart_items (tenant_id, cart_id, book_id, sku),
   INDEX idx_cart_items_cart_id (cart_id),
   CONSTRAINT chk_cart_currency CHECK (currency REGEXP '^[A-Z]{3}$'),
   CONSTRAINT chk_cart_qty CHECK (quantity > 0)

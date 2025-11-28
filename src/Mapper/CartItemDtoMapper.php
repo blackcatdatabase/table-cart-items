@@ -17,7 +17,7 @@ use BlackCat\Database\Support\DtoHydrator;
 final class CartItemDtoMapper
 {
     /** @var array<string,string> Column -> DTO property */
-    private const COL_TO_PROP = [ 'tenant_id' => 'tenantId', 'cart_id' => 'cartId', 'book_id' => 'bookId', 'unit_price' => 'unitPrice', 'price_snapshot' => 'priceSnapshot' ];
+    private const COL_TO_PROP = [ 'id' => 'id', 'tenant_id' => 'tenantId', 'cart_id' => 'cartId', 'book_id' => 'bookId', 'sku' => 'sku', 'variant' => 'variant', 'quantity' => 'quantity', 'unit_price' => 'unitPrice', 'price_snapshot' => 'priceSnapshot', 'currency' => 'currency', 'meta' => 'meta' ];
 
     /** @var string[] */
     private const BOOL_COLS   = [];
