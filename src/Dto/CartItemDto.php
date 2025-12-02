@@ -15,6 +15,7 @@ final class CartItemDto implements \JsonSerializable {
         public readonly string $cartId,
         public readonly int $bookId,
         public readonly ?string $sku,
+        public readonly ?string $skuNorm,
         public readonly array|null $variant,
         public readonly int $quantity,
         public readonly string $unitPrice,

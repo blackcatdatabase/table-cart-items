@@ -32,21 +32,20 @@ final class Criteria extends BaseCriteria
     /** Columns that are safe to use inside WHERE filters. */
     protected function filterable(): array
     {
-        return [ 'id', 'tenant_id', 'cart_id', 'book_id', 'sku', 'variant', 'quantity', 'unit_price', 'price_snapshot', 'currency', 'meta' ];
+        return [ 'id', 'tenant_id', 'cart_id', 'book_id', 'sku', 'sku_norm', 'variant', 'quantity', 'unit_price', 'price_snapshot', 'currency', 'meta' ];
     }
 
     /** Columns used for full-text LIKE/ILIKE searches. */
     protected function searchable(): array
     {
-        return [ 'cart_id', 'sku', 'currency' ];
+        return [ 'cart_id', 'sku', 'sku_norm', 'currency' ];
     }
 
-    /** Columns allowed in ORDER BY (falls back to filterable() when empty). */
-    protected function sortable(): array
-    {
-        $x = [ 'id', 'tenant_id', 'cart_id', 'book_id', 'sku', 'quantity', 'unit_price', 'price_snapshot', 'currency' ];
-        return $x ?: $this->filterable();
-    }
+/** Columns allowed in ORDER BY (falls back to filterable() when empty). */
+protected function sortable(): array
+{
+    return [ 'id', 'tenant_id', 'cart_id', 'book_id', 'sku', 'sku_norm', 'quantity', 'unit_price', 'price_snapshot', 'currency' ];
+}
 
     /**
      * Whitelist of joinable entities (for safe ->join() usage):
@@ -87,8 +86,8 @@ final class Criteria extends BaseCriteria
         $c = new static(); // previously: new self()
 
         $c->setDialectFromDatabase($db);
-        if ($quoteIdentifiers) { $c->quoteIdentifiers(true); }
-        if ($tenantId !== null) { $c->tenant($tenantId, $tenantColumn); }
+        if ($quoteIdentifiers) { $c->enableIdentifierQuoting(true); }
+        if ($tenantId !== null && $tenantColumn !== '') { $c->tenant($tenantId, $tenantColumn); }
 
         if (\method_exists(\BlackCat\Database\Packages\CartItems\Definitions::class, 'softDeleteColumn')) {
             $soft = \BlackCat\Database\Packages\CartItems\Definitions::softDeleteColumn();
@@ -99,17 +98,17 @@ final class Criteria extends BaseCriteria
 
     // --- Generated criteria helpers (per table) ---
     
-    public function byId(int|string $id): self {
-        return $this->where('t.id = :cid', ['cid' => $id]);
+    public function byId(int|string $id): static {
+        return $this->where('id', '=', $id);
     }
-    public function byIds(array $ids): self {
-        if (!$ids) return $this->where('1=0');
-        return $this->whereIn('t.id', array_values($ids));
+    public function byIds(array $ids): static {
+        if (!$ids) return $this->whereRaw('1=0');
+        return $this->where('id', 'IN', array_values($ids));
     }
     /** @param int|string|array<int,int|string> $tenantId */
-    public function forTenant(int|string|array $tenantId): self {
-        if (is_array($tenantId)) { return $this->whereIn('t.tenant_id', $tenantId); }
-        return $this->where('t.tenant_id = :tid', ['tid' => $tenantId]);
+    public function forTenant(int|string|array $tenantId): static {
+        if (is_array($tenantId)) { return $this->where('tenant_id', 'IN', $tenantId); }
+        return $this->where('tenant_id', '=', $tenantId);
     }
 
 }

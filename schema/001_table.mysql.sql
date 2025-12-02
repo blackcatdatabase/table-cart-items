@@ -1,4 +1,4 @@
--- Auto-generated from schema-map-mysql.psd1 (map@mtime:2025-11-27T15:13:14Z)
+-- Auto-generated from schema-map-mysql.yaml (map@94ebe6c)
 -- engine: mysql
 -- table:  cart_items
 
@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS cart_items (
   cart_id CHAR(36) NOT NULL,
   book_id BIGINT UNSIGNED NOT NULL,
   sku VARCHAR(64) NULL,
+  sku_norm VARCHAR(64) AS (COALESCE(sku, '')) STORED,
   variant JSON NULL,
   quantity INT UNSIGNED NOT NULL,
   unit_price DECIMAL(12,2) NOT NULL DEFAULT 0.00,

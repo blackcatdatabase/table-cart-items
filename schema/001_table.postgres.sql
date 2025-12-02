@@ -1,4 +1,4 @@
--- Auto-generated from schema-map-postgres.psd1 (map@mtime:2025-11-21T00:25:46Z)
+-- Auto-generated from schema-map-postgres.yaml (map@94ebe6c)
 -- engine: postgres
 -- table:  cart_items
 
@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS cart_items (
   cart_id CHAR(36) NOT NULL,
   book_id BIGINT NOT NULL,
   sku VARCHAR(64) NULL,
+  sku_norm TEXT GENERATED ALWAYS AS (COALESCE(sku, '')) STORED,
   variant JSONB NULL,
   quantity INTEGER NOT NULL,
   unit_price NUMERIC(12,2) NOT NULL DEFAULT 0.00,
