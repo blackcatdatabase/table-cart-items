@@ -592,20 +592,6 @@ use OrderByTools, PkTools, RepositoryHelpers;
     // === Generated unique helpers (per table UNIQUE/PK) ===
     
     /** @return array<string,mixed>|\BlackCat\Database\Packages\CartItems\Dto\CartItemDto|null */
-    public function getByTenantIdAndCartIdAndBookIdAndSku(int $tenantId, string $cartId, int $bookId, string $sku, bool $asDto = false): array|\BlackCat\Database\Packages\CartItems\Dto\CartItemDto|null {
-        return $this->getByUnique([ 'tenant_id' => $tenantId, 'cart_id' => $cartId, 'book_id' => $bookId, 'sku' => $sku ], $asDto);
-    }
-    public function existsByTenantIdAndCartIdAndBookIdAndSku(int $tenantId, string $cartId, int $bookId, string $sku): bool {
-        $where = 't.' . Ident::q($this->db, 'tenant_id') . ' = :uniq_tenant_id' . ' AND ' . 't.' . Ident::q($this->db, 'cart_id') . ' = :uniq_cart_id' . ' AND ' . 't.' . Ident::q($this->db, 'book_id') . ' = :uniq_book_id' . ' AND ' . 't.' . Ident::q($this->db, 'sku') . ' = :uniq_sku';
-        return $this->exists($where, [ 'uniq_tenant_id' => $tenantId, 'uniq_cart_id' => $cartId, 'uniq_book_id' => $bookId, 'uniq_sku' => $sku ]);
-    }
-    /** @return int|string|null */
-    public function getIdByTenantIdAndCartIdAndBookIdAndSku(int $tenantId, string $cartId, int $bookId, string $sku) {
-        $row = $this->getByTenantIdAndCartIdAndBookIdAndSku($tenantId, $cartId, $bookId, $sku, false);
-        if (!is_array($row)) { return null; }
-        return $row['id'] ?? null;
-    }
-    /** @return array<string,mixed>|\BlackCat\Database\Packages\CartItems\Dto\CartItemDto|null */
     public function getByTenantIdAndCartIdAndBookIdAndSkuNorm(int $tenantId, string $cartId, int $bookId, string $skuNorm, bool $asDto = false): array|\BlackCat\Database\Packages\CartItems\Dto\CartItemDto|null {
         return $this->getByUnique([ 'tenant_id' => $tenantId, 'cart_id' => $cartId, 'book_id' => $bookId, 'sku_norm' => $skuNorm ], $asDto);
     }
@@ -616,6 +602,20 @@ use OrderByTools, PkTools, RepositoryHelpers;
     /** @return int|string|null */
     public function getIdByTenantIdAndCartIdAndBookIdAndSkuNorm(int $tenantId, string $cartId, int $bookId, string $skuNorm) {
         $row = $this->getByTenantIdAndCartIdAndBookIdAndSkuNorm($tenantId, $cartId, $bookId, $skuNorm, false);
+        if (!is_array($row)) { return null; }
+        return $row['id'] ?? null;
+    }
+    /** @return array<string,mixed>|\BlackCat\Database\Packages\CartItems\Dto\CartItemDto|null */
+    public function getByTenantIdAndCartIdAndBookIdAndSku(int $tenantId, string $cartId, int $bookId, string $sku, bool $asDto = false): array|\BlackCat\Database\Packages\CartItems\Dto\CartItemDto|null {
+        return $this->getByUnique([ 'tenant_id' => $tenantId, 'cart_id' => $cartId, 'book_id' => $bookId, 'sku' => $sku ], $asDto);
+    }
+    public function existsByTenantIdAndCartIdAndBookIdAndSku(int $tenantId, string $cartId, int $bookId, string $sku): bool {
+        $where = 't.' . Ident::q($this->db, 'tenant_id') . ' = :uniq_tenant_id' . ' AND ' . 't.' . Ident::q($this->db, 'cart_id') . ' = :uniq_cart_id' . ' AND ' . 't.' . Ident::q($this->db, 'book_id') . ' = :uniq_book_id' . ' AND ' . 't.' . Ident::q($this->db, 'sku') . ' = :uniq_sku';
+        return $this->exists($where, [ 'uniq_tenant_id' => $tenantId, 'uniq_cart_id' => $cartId, 'uniq_book_id' => $bookId, 'uniq_sku' => $sku ]);
+    }
+    /** @return int|string|null */
+    public function getIdByTenantIdAndCartIdAndBookIdAndSku(int $tenantId, string $cartId, int $bookId, string $sku) {
+        $row = $this->getByTenantIdAndCartIdAndBookIdAndSku($tenantId, $cartId, $bookId, $sku, false);
         if (!is_array($row)) { return null; }
         return $row['id'] ?? null;
     }

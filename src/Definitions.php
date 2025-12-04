@@ -57,7 +57,7 @@ final class Definitions {
     }
 
     /** @return array<int,array<int,string>> list of unique keys */
-    public static function uniqueKeys(): array { return [ [ 'tenant_id', 'cart_id', 'book_id', 'sku' ], [ 'tenant_id', 'cart_id', 'book_id', 'sku_norm' ], [ 'id' ] ]; }
+    public static function uniqueKeys(): array { return [ [ 'tenant_id', 'cart_id', 'book_id', 'sku_norm' ], [ 'tenant_id', 'cart_id', 'book_id', 'sku' ], [ 'id' ] ]; }
 
     /** @return string[] JSON columns for casts/operations */
     public static function jsonColumns(): array { return [ 'variant', 'meta' ]; }
@@ -69,7 +69,7 @@ final class Definitions {
     public static function paramAliases(): array { return []; }
 
     /** @return string[] columns that are generated/virtual and must be excluded from INSERT/UPSERT input */
-    public static function generatedColumns(): array { return []; }
+    public static function generatedColumns(): array { return [ 'sku_norm' ]; }
     
     /** Repository hint: is the version column actually numeric? (no information_schema needed) */
     public static function versionIsNumeric(): bool
