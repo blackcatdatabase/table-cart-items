@@ -1,4 +1,4 @@
--- Auto-generated from schema-views-mysql.yaml (map@94ebe6c)
+-- Auto-generated from schema-views-mysql.yaml (map@4ae85c5)
 -- engine: mysql
 -- table:  cart_items
 
@@ -15,5 +15,7 @@ SELECT
   unit_price,
   price_snapshot,
   currency,
-  meta
+  meta,
+  created_at,
+  updated_at
 FROM cart_items;

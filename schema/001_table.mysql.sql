@@ -1,4 +1,4 @@
--- Auto-generated from schema-map-mysql.yaml (map@94ebe6c)
+-- Auto-generated from schema-map-mysql.yaml (map@4ae85c5)
 -- engine: mysql
 -- table:  cart_items
 
@@ -15,6 +15,8 @@ CREATE TABLE IF NOT EXISTS cart_items (
   price_snapshot DECIMAL(12,2) NOT NULL,
   currency CHAR(3) NOT NULL,
   meta JSON NULL,
+  created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  updated_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
   PRIMARY KEY (id),
   UNIQUE KEY ux_cart_items (tenant_id, cart_id, book_id, sku),
   INDEX idx_cart_items_cart_id (cart_id),

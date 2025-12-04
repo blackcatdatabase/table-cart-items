@@ -1,4 +1,4 @@
--- Auto-generated from schema-map-postgres.yaml (map@94ebe6c)
+-- Auto-generated from schema-map-postgres.yaml (map@4ae85c5)
 -- engine: postgres
 -- table:  cart_items
 
@@ -15,6 +15,8 @@ CREATE TABLE IF NOT EXISTS cart_items (
   price_snapshot NUMERIC(12,2) NOT NULL,
   currency CHAR(3) NOT NULL,
   meta JSONB NULL,
+  created_at TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  updated_at TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   CONSTRAINT chk_cart_currency CHECK (currency ~ '^[A-Z]{3}$'),
   CONSTRAINT chk_cart_qty CHECK (quantity > 0)
 );

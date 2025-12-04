@@ -21,7 +21,9 @@ final class CartItemDto implements \JsonSerializable {
         public readonly string $unitPrice,
         public readonly string $priceSnapshot,
         public readonly string $currency,
-        public readonly array|null $meta
+        public readonly array|null $meta,
+        public readonly \DateTimeImmutable $createdAt,
+        public readonly \DateTimeImmutable $updatedAt
     ) {}
 
     /** Suitable for serialization/logging (without large blobs). */

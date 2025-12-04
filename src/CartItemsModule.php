@@ -46,7 +46,9 @@ SELECT
   unit_price,
   price_snapshot,
   currency,
-  meta
+  meta,
+  created_at,
+  updated_at
 FROM cart_items;
 SQL;
         } else {
@@ -63,7 +65,9 @@ SELECT
   unit_price,
   price_snapshot,
   currency,
-  meta
+  meta,
+  created_at,
+  updated_at
 FROM cart_items;
 SQL;
         }

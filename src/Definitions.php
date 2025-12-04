@@ -8,7 +8,7 @@ final class Definitions {
     public static function table(): string { return 'cart_items'; }
     public static function contractView(): string { return 'vw_cart_items'; }
     /** @return string[] */
-    public static function columns(): array { return [ 'id', 'tenant_id', 'cart_id', 'book_id', 'sku', 'sku_norm', 'variant', 'quantity', 'unit_price', 'price_snapshot', 'currency', 'meta' ]; }
+    public static function columns(): array { return [ 'id', 'tenant_id', 'cart_id', 'book_id', 'sku', 'sku_norm', 'variant', 'quantity', 'unit_price', 'price_snapshot', 'currency', 'meta', 'created_at', 'updated_at' ]; }
 
     /** @var array<string,array<int,string>> */
     public const STATUS_TRANSITIONS = [];
@@ -46,14 +46,14 @@ final class Definitions {
         $c = trim(''); return $c !== '' ? $c : null;
     }
     public static function updatedAtColumn(): ?string {
-        $c = trim(''); return $c !== '' ? $c : null;
+        $c = trim('updated_at'); return $c !== '' ? $c : null;
     }
     public static function versionColumn(): ?string {
         $c = trim(''); return $c !== '' ? $c : null;
     }
     /** e.g. "created_at DESC, id DESC" */
     public static function defaultOrder(): ?string {
-        $c = trim('id DESC'); return $c !== '' ? $c : null;
+        $c = trim('created_at DESC, id DESC'); return $c !== '' ? $c : null;
     }
 
     /** @return array<int,array<int,string>> list of unique keys */
