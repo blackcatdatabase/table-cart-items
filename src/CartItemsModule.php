@@ -106,7 +106,7 @@ SQL;
         $hasView  = SchemaIntrospector::hasView($db, $d, $view);
 
         // Quick index/FK check â€“ generator injects names (case-sensitive per DB)
-        $expectedIdx = [ 'idx_cart_items_cart_id', 'idx_cart_items_tenant_book', 'idx_cart_items_tenant_cart', 'ux_cart_items', 'ux_cart_items_tenant_norm' ];
+        $expectedIdx = [ 'idx_cart_items_cart_id', 'idx_cart_items_tenant_book', 'idx_cart_items_tenant_cart', 'ux_cart_items_tenant_norm' ];
         if ($d->isMysql()) {
             // Drop PG-only index naming patterns (e.g., GIN/GiST)
             $expectedIdx = array_values(array_filter(
@@ -139,7 +139,7 @@ SQL;
             'columns'     => Definitions::columns(),
             'version'     => $this->version(),
             'dialects'    => [ 'mysql', 'postgres' ],
-            'indexes'     => [ 'idx_cart_items_cart_id', 'idx_cart_items_tenant_book', 'idx_cart_items_tenant_cart', 'ux_cart_items', 'ux_cart_items_tenant_norm' ],
+            'indexes'     => [ 'idx_cart_items_cart_id', 'idx_cart_items_tenant_book', 'idx_cart_items_tenant_cart', 'ux_cart_items_tenant_norm' ],
             'foreignKeys' => [ 'fk_cart_items_book', 'fk_cart_items_cart', 'fk_cart_items_tenant' ],
         ];
     }
