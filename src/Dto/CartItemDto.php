@@ -15,12 +15,15 @@ final class CartItemDto implements \JsonSerializable {
         public readonly string $cartId,
         public readonly int $bookId,
         public readonly ?string $sku,
+        public readonly ?string $skuNorm,
         public readonly array|null $variant,
         public readonly int $quantity,
         public readonly string $unitPrice,
         public readonly string $priceSnapshot,
         public readonly string $currency,
-        public readonly array|null $meta
+        public readonly array|null $meta,
+        public readonly \DateTimeImmutable $createdAt,
+        public readonly \DateTimeImmutable $updatedAt
     ) {}
 
     /** Suitable for serialization/logging (without large blobs). */

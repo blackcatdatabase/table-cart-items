@@ -17,7 +17,7 @@ use BlackCat\Database\Support\DtoHydrator;
 final class CartItemDtoMapper
 {
     /** @var array<string,string> Column -> DTO property */
-    private const COL_TO_PROP = [ 'tenant_id' => 'tenantId', 'cart_id' => 'cartId', 'book_id' => 'bookId', 'unit_price' => 'unitPrice', 'price_snapshot' => 'priceSnapshot' ];
+    private const COL_TO_PROP = [ 'id' => 'id', 'tenant_id' => 'tenantId', 'cart_id' => 'cartId', 'book_id' => 'bookId', 'sku' => 'sku', 'sku_norm' => 'skuNorm', 'variant' => 'variant', 'quantity' => 'quantity', 'unit_price' => 'unitPrice', 'price_snapshot' => 'priceSnapshot', 'currency' => 'currency', 'meta' => 'meta', 'created_at' => 'createdAt', 'updated_at' => 'updatedAt' ];
 
     /** @var string[] */
     private const BOOL_COLS   = [];
@@ -28,7 +28,7 @@ final class CartItemDtoMapper
     /** @var string[] */
     private const JSON_COLS   = [ 'variant', 'meta' ];
     /** @var string[] */
-    private const DATE_COLS   = [];
+    private const DATE_COLS   = [ 'created_at', 'updated_at' ];
     /** @var string[] */
     private const BIN_COLS    = [];
 
@@ -39,13 +39,8 @@ final class CartItemDtoMapper
 
     private static function tz(): DateTimeZone
     {
-        if (self::$tzObj instanceof DateTimeZone) {
-            return self::$tzObj;
-        }
-        try {
+        if (!(self::$tzObj instanceof DateTimeZone)) {
             self::$tzObj = new DateTimeZone(self::TZ);
-        } catch (\Throwable) {
-            self::$tzObj = new DateTimeZone('UTC');
         }
         return self::$tzObj;
     }

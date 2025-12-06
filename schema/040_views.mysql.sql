@@ -1,6 +1,7 @@
--- Auto-generated from schema-views-mysql.psd1 (map@62c9c93)
+-- Auto-generated from schema-views-mysql.yaml (map@sha1:A4E10261DACB7519F6FEA44ED77A92163429CA5E)
 -- engine: mysql
 -- table:  cart_items
+
 -- Contract view for [cart_items]
 CREATE OR REPLACE ALGORITHM=MERGE SQL SECURITY INVOKER VIEW vw_cart_items AS
 SELECT
@@ -14,5 +15,7 @@ SELECT
   unit_price,
   price_snapshot,
   currency,
-  meta
+  meta,
+  created_at,
+  updated_at
 FROM cart_items;
