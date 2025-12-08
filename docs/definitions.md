@@ -9,12 +9,12 @@ Items added to shopping carts. UNIQUE (cart_id, book_id, sku) to prevent duplica
 | cart_id | CHAR(36) | NO |  | Cart identifier (UUID textual). |
 | currency | CHAR(3) | NO |  | ISO 4217 currency code. |
 | id | BIGINT | NO |  | Surrogate primary key. |
-| meta | JSONB | YES |  | Additional JSON metadata. |
-| price_snapshot | NUMERIC(12,2) | NO |  | Cached line price for integrity. |
-| quantity | INTEGER | NO |  | Quantity > 0. |
+| meta | JSON | YES |  | Additional JSON metadata. |
+| price_snapshot | DECIMAL(12,2) | NO |  | Cached line price for integrity. |
+| quantity | INT | NO |  | Quantity > 0. |
 | sku | VARCHAR(64) | YES |  | SKU snapshot. |
-| unit_price | NUMERIC(12,2) | NO | 0.00 | Unit price at time of adding. |
-| variant | JSONB | YES |  | JSON with selected variant/options. |
+| unit_price | DECIMAL(12,2) | NO | 0.00 | Unit price at time of adding. |
+| variant | JSON | YES |  | JSON with selected variant/options. |
 
 ## Engine Details
 
@@ -71,7 +71,7 @@ Foreign keys:
 ## Views
 | View | Engine | Flags | File |
 | --- | --- | --- | --- |
-| vw_cart_items | mysql | algorithm=MERGE, security=INVOKER | [packages\cart-items\schema\040_views.mysql.sql](https://github.com/blackcatacademy/blackcat-database/packages/cart-items/schema/040_views.mysql.sql) |
-| vw_cart_items_detailed | mysql | algorithm=TEMPTABLE, security=INVOKER | [packages\cart-items\schema\040_views_joins.mysql.sql](https://github.com/blackcatacademy/blackcat-database/packages/cart-items/schema/040_views_joins.mysql.sql) |
-| vw_cart_items | postgres |  | [packages\cart-items\schema\040_views.postgres.sql](https://github.com/blackcatacademy/blackcat-database/packages/cart-items/schema/040_views.postgres.sql) |
-| vw_cart_items_detailed | postgres |  | [packages\cart-items\schema\040_views_joins.postgres.sql](https://github.com/blackcatacademy/blackcat-database/packages/cart-items/schema/040_views_joins.postgres.sql) |
+| vw_cart_items | mysql | algorithm=MERGE, security=INVOKER | [schema\040_views.mysql.sql](schema\040_views.mysql.sql) |
+| vw_cart_items_detailed | mysql | algorithm=TEMPTABLE, security=INVOKER | [schema\040_views_joins.mysql.sql](schema\040_views_joins.mysql.sql) |
+| vw_cart_items | postgres |  | [schema\040_views.postgres.sql](schema\040_views.postgres.sql) |
+| vw_cart_items_detailed | postgres |  | [schema\040_views_joins.postgres.sql](schema\040_views_joins.postgres.sql) |
