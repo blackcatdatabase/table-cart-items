@@ -9,12 +9,12 @@ Items added to shopping carts. UNIQUE (cart_id, book_id, sku) to prevent duplica
 | cart_id | CHAR(36) | NO |  | Cart identifier (UUID textual). |
 | currency | CHAR(3) | NO |  | ISO 4217 currency code. |
 | id | BIGINT | NO |  | Surrogate primary key. |
-| meta | JSON | YES |  | Additional JSON metadata. |
-| price_snapshot | DECIMAL(12,2) | NO |  | Cached line price for integrity. |
-| quantity | INT | NO |  | Quantity > 0. |
+| meta | mysql: JSON / postgres: JSONB | YES |  | Additional JSON metadata. |
+| price_snapshot | mysql: DECIMAL(12,2) / postgres: NUMERIC(12,2) | NO |  | Cached line price for integrity. |
+| quantity | mysql: INT / postgres: INTEGER | NO |  | Quantity > 0. |
 | sku | VARCHAR(64) | YES |  | SKU snapshot. |
-| unit_price | DECIMAL(12,2) | NO | 0.00 | Unit price at time of adding. |
-| variant | JSON | YES |  | JSON with selected variant/options. |
+| unit_price | mysql: DECIMAL(12,2) / postgres: NUMERIC(12,2) | NO | 0.00 | Unit price at time of adding. |
+| variant | mysql: JSON / postgres: JSONB | YES |  | JSON with selected variant/options. |
 
 ## Engine Details
 
