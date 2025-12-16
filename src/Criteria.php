@@ -41,11 +41,11 @@ final class Criteria extends BaseCriteria
         return [ 'cart_id', 'sku', 'sku_norm', 'currency' ];
     }
 
-/** Columns allowed in ORDER BY (falls back to filterable() when empty). */
-protected function sortable(): array
-{
-    return [ 'id', 'tenant_id', 'cart_id', 'book_id', 'sku', 'sku_norm', 'quantity', 'unit_price', 'price_snapshot', 'currency', 'created_at', 'updated_at' ];
-}
+    /** Columns allowed in ORDER BY (falls back to filterable() when empty). */
+    protected function sortable(): array
+    {
+        return [ 'id', 'tenant_id', 'cart_id', 'book_id', 'sku', 'sku_norm', 'quantity', 'unit_price', 'price_snapshot', 'currency', 'created_at', 'updated_at' ];
+    }
 
     /**
      * Whitelist of joinable entities (for safe ->join() usage):
