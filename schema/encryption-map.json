@@ -1,0 +1,50 @@
+{
+  "tables": {
+    "cart_items": {
+      "columns": {
+        "book_id": {
+          "strategy": "passthrough"
+        },
+        "cart_id": {
+          "strategy": "passthrough"
+        },
+        "created_at": {
+          "strategy": "passthrough"
+        },
+        "currency": {
+          "strategy": "passthrough"
+        },
+        "id": {
+          "strategy": "passthrough"
+        },
+        "meta": {
+          "strategy": "passthrough"
+        },
+        "price_snapshot": {
+          "strategy": "passthrough"
+        },
+        "quantity": {
+          "strategy": "passthrough"
+        },
+        "sku": {
+          "strategy": "passthrough"
+        },
+        "sku_norm": {
+          "strategy": "passthrough"
+        },
+        "tenant_id": {
+          "strategy": "passthrough"
+        },
+        "unit_price": {
+          "strategy": "passthrough"
+        },
+        "updated_at": {
+          "strategy": "passthrough"
+        },
+        "variant": {
+          "strategy": "passthrough"
+        }
+      }
+    }
+  }
+}

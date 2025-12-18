@@ -3,18 +3,22 @@
 Items added to shopping carts. UNIQUE (cart_id, book_id, sku) to prevent duplicate items in the cart.
 
 ## Columns
-| Column | Type | Null | Default | Description |
-| --- | --- | --- | --- | --- |
-| id | BIGINT | NO |  | Surrogate primary key. |
-| cart_id | CHAR(36) | NO |  | Cart identifier (UUID textual). |
-| book_id | BIGINT | NO |  | Book (FK books.id). |
-| sku | VARCHAR(64) | YES |  | SKU snapshot. |
-| variant | mysql: JSON / postgres: JSONB | YES |  | JSON with selected variant/options. |
-| quantity | mysql: INT / postgres: INTEGER | NO |  | Quantity > 0. |
-| unit_price | mysql: DECIMAL(12,2) / postgres: NUMERIC(12,2) | NO | 0.00 | Unit price at time of adding. |
-| price_snapshot | mysql: DECIMAL(12,2) / postgres: NUMERIC(12,2) | NO |  | Cached line price for integrity. |
-| currency | CHAR(3) | NO |  | ISO 4217 currency code. |
-| meta | mysql: JSON / postgres: JSONB | YES |  | Additional JSON metadata. |
+| Column | Type | Null | Default | Description | Crypto |
+| --- | --- | --- | --- | --- | --- |
+| id | BIGINT | NO |  | Surrogate primary key. |  |
+| tenant_id | BIGINT | NO |  | Owning tenant (FK tenants.id). |  |
+| cart_id | CHAR(36) | NO |  | Cart identifier (UUID textual). |  |
+| book_id | BIGINT | NO |  | Book (FK books.id). |  |
+| sku | VARCHAR(64) | YES |  | SKU snapshot. |  |
+| sku_norm | VARCHAR(64) | YES |  | Generated normalized SKU (COALESCE(sku, '')). |  |
+| variant | mysql: JSON / postgres: JSONB | YES |  | JSON with selected variant/options. |  |
+| quantity | mysql: INT / postgres: INTEGER | NO |  | Quantity > 0. |  |
+| unit_price | mysql: DECIMAL(12,2) / postgres: NUMERIC(12,2) | NO | 0.00 | Unit price at time of adding. |  |
+| price_snapshot | mysql: DECIMAL(12,2) / postgres: NUMERIC(12,2) | NO |  | Cached line price for integrity. |  |
+| currency | CHAR(3) | NO |  | ISO 4217 currency code. |  |
+| meta | mysql: JSON / postgres: JSONB | YES |  | Additional JSON metadata. |  |
+| created_at | mysql: DATETIME(6) / postgres: TIMESTAMPTZ(6) | NO | CURRENT_TIMESTAMP(6) | Creation timestamp (UTC). |  |
+| updated_at | mysql: DATETIME(6) / postgres: TIMESTAMPTZ(6) | NO | CURRENT_TIMESTAMP(6) | Update timestamp (UTC). |  |
 
 ## Engine Details
 
